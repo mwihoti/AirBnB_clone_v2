@@ -22,7 +22,7 @@ class State(BaseModel, Base):
                               backref="state",
                               cascade="all, delete")
     else:
-        name = ""
+        name = None
 
     def __init__(self, *args, **kwargs):
         """initializes class state"""

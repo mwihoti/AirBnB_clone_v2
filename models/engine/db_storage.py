@@ -32,7 +32,7 @@ class DBStorage():
                                              getenv("HBNB_MYSQL_DB")),
                                       pool_pre_ping=True)
         if ("HBNB_ENV") == "test":
-            Base.metatdate.drop_all(self.__engine)
+            Base.metadata.drop_all(self.__engine)
 
     def all(self, cls=None):
         """query on the current database session return a dictionary"""
