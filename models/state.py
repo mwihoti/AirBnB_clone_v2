@@ -20,13 +20,12 @@ class State(BaseModel, Base):
 
         cities = relationship("City",
                               backref="state",
-                              cascade="all, delete-orphan",
-                              passive_deletes=True)
+                              cascade="all, delete")
     else:
         name = ""
 
     def __init__(self, *args, **kwargs):
-        """initializes state"""
+        """initializes class state"""
         super().__init__(*args, **kwargs)
 
     if environ.get('HBNB_TYPE_STORAGE') != 'db':
@@ -37,4 +36,4 @@ class State(BaseModel, Base):
             Returns: cities in a state
             """
             return [city for city in models.storage.all(
-                City).values() if city.state_id == self.id]
+                "City").values() if city.state_id == self.id]
