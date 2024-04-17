@@ -10,7 +10,7 @@ from models.amenity import Amenity
 from models.base_model import Base, BaseModel
 
 
-class Place(BaseModel):
+class Place(BaseModel, Base):
     """ A place to stay """
     if getenv('HBNB_TYPE_STORAGE') == 'db':
         __tablename__ = 'places'
@@ -36,14 +36,14 @@ class Place(BaseModel):
         price_by_night = Column(Integer,
                                 default=0,
                                 nullable=False)
-        latitude = Column(Float, nullable=True)
-        longitude = Column(Float, nullable=True)
-        reviews = relationship("Review", cascade="all, delete",
-                               backref="places")
-        amenities = relationship("Amenity",
-                                 secondary='place_amenity',
-                                 viewonly=False,
-                                 backref="place_amenities")
+        #latitude = Column(Float, nullable=True)
+        #longitude = Column(Float, nullable=True)
+        #reviews = relationship("Review", cascade="all, delete",
+                              # backref="places")
+        #amenities = relationship("Amenity",
+                                 #secondary='place_amenity',
+                                 #viewonly=False,
+                                 #backref="place_amenities")
     else:
         city_id = ""
         user_id = ""

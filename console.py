@@ -119,18 +119,27 @@ class HBNBCommand(cmd.Cmd):
             if not arg:
                 raise SyntaxError()
             create_list = arg.split(" ")
-            obj = eval("{}()".format(create_list[0]))
-            for lists in create_list[1:]:
-                my_att = lists.split('=')
-                try:
-                    convert = HBNBCommand.verify_attribute(my_att[1])
-                except Exception:
-                    continue
-                if not convert:
-                    continue
-                setattr(obj, my_att[0], convert)
-            obj.save()
-            print("{}".format(obj.id))
+            obj = create_list[0]
+            if obj not in self.classes:
+                raise NameError("Class '{}' does not exist".format(class_name))
+            ob = self.classes[obj]()
+
+            for part in create_list[1:]:
+                att_name, att_value = part.split("=")
+
+                if att_value.startswith('"') and att_value.endswith('"'):
+                    att_value = att_value[1:-1].replace('\\"', '"')\
+                                .replace('_', ' ')
+
+                if '.' in att_value:
+                    att_value = float(att_value)
+                elif att_value.isdigit():
+                    att_value = int(att_value)
+
+                setattr(ob, att_name, att_value)
+
+            ob.save()
+            print("{}".format(ob.id))
         except SyntaxError:
             print("** class name missing **")
         except NameError:
