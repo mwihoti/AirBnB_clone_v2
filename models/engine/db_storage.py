@@ -13,6 +13,9 @@ import sqlalchemy
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 
+objs = {"Amenity": Amenity, "City": City,
+           "Place": Place, "Review": Review, "State": State, "User": User}
+
 class DBStorage():
 
     """Defines DbStorage"""
@@ -33,17 +36,20 @@ class DBStorage():
 
     def all(self, cls=None):
         """query on the current database session return a dictionary"""
-        objs = {"Amenity": Amenity, "City": City,
-           "Place": Place, "Review": Review, "State": State, "User": User}
+        if not self.__session:
+            self.reload()
+        objects = {}
+        if type(cls) == str:
+            cls = objs.get(cls, None)
+        if cls:
+            for ob in self.__session.query(cls):
+                objects[ob.__class__.__name__ + '.' + ob.id] = ob
+        else:
+            for cls in objs.values():
+                for ob in self.__session.query(cls):
+                    objects[ob.__class__.__name__ + '.' + ob.id] = ob
+        return objects
 
-        db_dict = {}
-        for o in objs:
-            if cls is None:
-                ob = self.__session.query(objs[o]).all()
-                for k in ob:
-                    v = k.__class__.__name__ + '.' +k.id
-                    db_dict[v] = k
-                    return (db_dict)
 
     def new(self, obj):
         """add the object to the current database """
