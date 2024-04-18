@@ -221,7 +221,7 @@ class HBNBCommand(cmd.Cmd):
 
     def do_all(self, args):
         """ Shows all objects, or all objects of a class"""
-        print_list = []
+        prints_list = []
 
         if args:
             args = args.split(' ')[0]  
@@ -230,12 +230,12 @@ class HBNBCommand(cmd.Cmd):
                 return
             for k, v in storage.all().items():
                 if k.split('.')[0] == args:
-                    print_list.append(str(v))
+                    prints_list.append(str(v))
         else:
-            for k, v in storage._FileStorage__objects.items():
-                print_list.append(str(v))
+            for k, v in storge.all().items():
+                prints_list.append(str(v))
 
-        print(print_list)
+        print(prints_list)
 
     def help_all(self):
         """ Help information for the all command """
