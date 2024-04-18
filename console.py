@@ -130,13 +130,16 @@ class HBNBCommand(cmd.Cmd):
                 if att_value.startswith('"') and att_value.endswith('"'):
                     att_value = att_value[1:-1].replace('\\"', '"')\
                                 .replace('_', ' ')
+                if att_name == 'email':
+                    setattr(ob, att_name, att_value)
+                else:
 
-                if '.' in att_value:
-                    att_value = float(att_value)
-                elif att_value.isdigit():
-                    att_value = int(att_value)
+                    if '.' in att_value:
+                        att_value = float(att_value)
+                    elif att_value.isdigit():
+                        att_value = int(att_value)
 
-                setattr(ob, att_name, att_value)
+                    setattr(ob, att_name, att_value)
 
             ob.save()
             print("{}".format(ob.id))
