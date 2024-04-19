@@ -2,6 +2,7 @@
 """ Console Module """
 import cmd
 import sys
+import re
 from models.base_model import BaseModel
 from models.__init__ import storage
 from models.user import User
@@ -115,38 +116,63 @@ class HBNBCommand(cmd.Cmd):
 
     def do_create(self, arg):
         """ Create an object of any class"""
-        try:
-            if not arg:
-                raise SyntaxError()
-            create_list = arg.split(" ")
-            obj = create_list[0]
-            if obj not in self.classes:
-                raise NameError("Class '{}' does not exist".format(class_name))
-            ob = self.classes[obj]()
-
-            for part in create_list[1:]:
-                att_name, att_value = part.split("=")
-
-                if att_value.startswith('"') and att_value.endswith('"'):
-                    att_value = att_value[1:-1].replace('\\"', '"')\
-                                .replace('_', ' ')
-                if att_name == 'email':
-                    setattr(ob, att_name, att_value)
-                else:
-
-                    if '.' in att_value:
-                        att_value = float(att_value)
-                    elif att_value.isdigit():
-                        att_value = int(att_value)
-
-                    setattr(ob, att_name, att_value)
-
-            ob.save()
-            print("{}".format(ob.id))
-        except SyntaxError:
-            print("** class name missing **")
-        except NameError:
+        unused = ('id', 'created_at', 'updated_at', '__class__')
+        get_class = ''
+        get_pattern= r'(?P<name>(?:[a-zA-Z]|_)(?:[a-zA-Z]|\d|_))'
+        match_class = re.match(get_pattern, arg)
+        obj = {}
+        if match_class is not None:
+            get_class = match_class.group('name')
+            params_str = arg[len(get_class):].strip()
+            characters = params_str.split(' ')
+            strings_pattern =r'(?P<t_str>"([^"]|\")*")'
+            floats_p = r'(?P<t_float>[-+]?\d+\.\d+)'
+            integer_p = r'(?P<t_int>[-+]?\d+)'
+            params_p = '{}=({}|{}|{})'.format(
+                get_pattern,
+                strings_pattern,
+                floats_p,
+                integer_p
+            )
+            for p in characters:
+                character_match = re.fullmatch(params_p, p)
+                if character_match is not None:
+                    key_name = character_match.group('name')
+                    str_value = character_match.group('t_str')
+                    float_value = character_match.group('t_float')
+                    int_value = character_match.group('t_int')
+                    if float_value is not None:
+                        obj[key_name] = float(float_value)
+                    if int_value is not None:
+                        obj[key_name] = int(int_v)
+                    if str_value is not None:
+                        obj[key_name] = str_value[1:1].replace('_', ' ')
+        else:
+            get_class = arg
+        if not get_class:
+            print("** class name missing *")
+            return
+        elif get_class not in HBNBCommand.classes:
             print("** class doesn't exist **")
+            return
+        if os.getenv('HBNB_TYPE_STORAGE') == 'db':
+            if not hasattr(obj, 'id'):
+                obj['id'] = str(uuid.uuid4())
+            if not hasattr(obj, 'created_at'):
+                obj['created_at'] = str(datetime.now())
+            if not hasattr(obj, 'updated_at'):
+                obj['updated_at'] = str(datetime.now())
+            new_instance = HBNBCommand.classes[get_class](**obj)
+            new.instance.save()
+            print(new_instance.id)
+        else:
+           new_instance = HBNBCommand.classes[get_class]()
+           for key, value in obj.items():
+               if key not in unused:
+                   setattr(new_instance, key, value)
+           new_instance.save()
+           print(new_instance.id)
+
 
     def help_create(self):
         """ Help information for the create method """
