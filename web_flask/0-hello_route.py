@@ -9,10 +9,10 @@ app.url_map.strict_slashes = False
 
 
 @app.route('/')
-
 def hello():
-	"""Prints Hello HBNB"""
-	return 'Hello HBNB!'
+    """Prints Hello HBNB"""
+    return 'Hello HBNB!'
+
 
 if __name__ == '__main__':
-	app.run(debug=True)
+    app.run(debug=True)
