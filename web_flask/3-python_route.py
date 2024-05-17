@@ -21,8 +21,15 @@ def hbnb():
 
 @app.route('/c/<text>')
 def c_text(text):
-    """defines text function for url parameter"""
+    """defines c_text function for url parameter"""
     return 'C {} '.format(text.replace('_', ' '))
+
+
+@app.route('/python/<text>')
+def py_text(text):
+    """defines py_text function for url parameter"""
+    text = 'is cool'
+    return 'Python {} '.format(text.replace('_', ' '))
 
 
 if __name__ == '__main__':
