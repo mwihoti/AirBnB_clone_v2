@@ -25,10 +25,11 @@ def c_text(text):
     return 'C {} '.format(text.replace('_', ' '))
 
 
+@app.route('/python', defaults={'text': 'is cool'})
 @app.route('/python/<text>')
 def py_text(text):
     """defines py_text function for url parameter"""
-    text = 'is cool'
+
     return 'Python {}'.format(text.replace('_', ' '))
 
 
