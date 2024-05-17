@@ -22,7 +22,7 @@ def hbnb():
 @app.route('/c/<text>')
 def c_text(text):
     """defines text function for url parameter"""
-    return 'C {} '.format(text.replace('_', ' '))
+    return 'C {}'.format(text.replace('_', ' '))
 
 
 if __name__ == '__main__':

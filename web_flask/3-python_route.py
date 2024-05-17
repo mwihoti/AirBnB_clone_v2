@@ -29,7 +29,7 @@ def c_text(text):
 def py_text(text):
     """defines py_text function for url parameter"""
     text = 'is cool'
-    return 'Python {} '.format(text.replace('_', ' '))
+    return 'Python {}'.format(text.replace('_', ' '))
 
 
 if __name__ == '__main__':
