@@ -39,20 +39,21 @@ def n_num(n):
     return '{} is a number'.format(n)
 
 
-@app.route('/number_template/<n>')
+@app.route('/number_template/<int:n>')
 def template(n):
     """Define template function  Prints n if its an integer"""
     return render_template('5-number.html', num=n)
 
 
-@app.route('/number_odd_or_even/<n>')
+@app.route('/number_odd_or_even/<int:n>')
 def num_Check(n):
     """Defines num_Checkfunction Checks if n is odd number or even"""
     if n % 2 == 0:
         num_is = "even"
     else:
         num_is = 'odd'
-    return render_template('6-number_odd_or_even.html', num=n, num_is = num_is)
+    return render_template('6-number_odd_or_even.html', num=n, num_is=num_is)
+
 
 if __name__ == '__main__':
     app.run(debug=True)
