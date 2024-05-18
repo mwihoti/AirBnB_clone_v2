@@ -44,5 +44,6 @@ def template(n):
     """Define template function"""
     return render_template('5-number.html', num=n)
 
+
 if __name__ == '__main__':
     app.run(debug=True)
