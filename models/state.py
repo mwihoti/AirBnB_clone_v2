@@ -36,4 +36,5 @@ class State(BaseModel, Base):
             Returns: cities in a state
             """
             return [city for city in models.storage.all(
-                "City").values() if city.state_id == self.id]
+                City).values() if city.state_id == self.id]
+
