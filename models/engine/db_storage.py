@@ -14,7 +14,8 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 
 objs = {"Amenity": Amenity, "City": City,
-           "Place": Place, "Review": Review, "State": State, "User": User}
+        "Place": Place, "Review": Review, "State": State, "User": User}
+
 
 class DBStorage():
 
@@ -39,7 +40,7 @@ class DBStorage():
         if not self.__session:
             self.reload()
         objects = {}
-        if type(cls) == str:
+        if isinstance(cls, str):
             cls = objs.get(cls, None)
         if cls:
             for ob in self.__session.query(cls):
@@ -49,7 +50,6 @@ class DBStorage():
                 for ob in self.__session.query(cls):
                     objects[ob.__class__.__name__ + '.' + ob.id] = ob
         return objects
-
 
     def new(self, obj):
         """add the object to the current database """
@@ -74,4 +74,3 @@ class DBStorage():
     def close(self):
         """call remove() method """
         self.__session.remove()
-
