@@ -19,8 +19,10 @@ class BaseModel:
     """A base class for all hbnb models"""
     if environ.get("HBNB_TYPE_STORAGE") == 'db':
         id = Column(String(60), unique=True, primary_key=True, nullable=False)
-        created_at = Column(DateTime, nullable=False, default=datetime.utcnow())
-        updated_at = Column(DateTime, nullable=False, default=datetime.utcnow())
+        created_at = Column(DateTime, nullable=False,
+                            default=datetime.utcnow())
+        updated_at = Column(DateTime, nullable=False,
+                            default=datetime.utcnow())
 
     def __init__(self, *args, **kwargs):
         """Instatntiates a new model"""
