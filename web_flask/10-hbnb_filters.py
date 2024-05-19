@@ -4,6 +4,8 @@
 
 from flask import Flask, render_template
 from models import storage
+from models.state import State
+from models.amenity import Amenity
 
 
 app = Flask(__name__)
@@ -20,10 +22,12 @@ def tear_storage(exception=None):
 @app.route('/hbnb_filters')
 def hbnb_filters(id=None):
     """displays a HTML page: inside the tag BODY"""
-    states = storage.all("State").values()
-    amenities = storage.all("Amenity").values()
+    states = storage.all(State).values()
+    sorted_state = sorted(states, key=lambda state: state.name)
+    amenities = storage.all(Amenity).values()
+    sorted_amenities = sorted(amenities, key=lambda Amenity: Amenity.name)
     return render_template('10-hbnb_filters.html',
-                           states=states, amenities=amenities)
+                           states=sorted_state, amenities=sorted_amenities)
 
 
 if __name__ == '__main__':
