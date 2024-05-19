@@ -18,5 +18,6 @@ def hbnb():
     """HBNB function"""
     return 'HBNB'
 
+
 if __name__ == '__main__':
     app.run(debug=True)
