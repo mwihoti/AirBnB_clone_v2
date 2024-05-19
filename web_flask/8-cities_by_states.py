@@ -4,6 +4,8 @@
 
 from flask import Flask, render_template
 from models import storage
+from models.state import State
+
 
 
 app = Flask(__name__)
@@ -21,9 +23,10 @@ def tear_storage(exception=None):
 @app.route('/cities_by_states')
 def cities_list(n=None):
     """displays a HTML page: inside the tag BODY"""
-    # check 7-states_list.py and html for another way to do this
-    states = storage.all('State').values()
-    return render_template('8-cities_by_states.html', states=states)
+    # check 8-cities.py and html for another way to do this
+    states = storage.all(State).values()
+    sorted_state = sorted(states, key=lambda state: state.name)
+    return render_template('8-cities_by_states.html', states=sorted_state)
 
 
 if __name__ == '__main__':
