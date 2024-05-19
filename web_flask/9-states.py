@@ -7,7 +7,6 @@ from models import storage
 from models.state import State
 
 
-
 app = Flask(__name__)
 app.url_map.strict_slashes = False
 
@@ -19,6 +18,7 @@ def tear_storage(exception=None):
     if storage is not None:
         storage.close()
 
+
 @app.route('/states')
 def states():
     """Display a HTML page with the list of all states"""
@@ -26,9 +26,11 @@ def states():
     states_sorted = sorted(states, key=lambda state: state.name)
     return render_template('9-states.html', states=states_sorted)
 
+
 @app.route('/states/<id>')
 def state_cities(id):
-    """Display a HTML page with the state and its cities if found, otherwise 'Not found'"""
+    """Display a HTML page with the state and its cities if found,
+    otherwise 'Not found'"""
     state = storage.all(State).get('State.' + id)
     if state:
         cities = list(state.cities)

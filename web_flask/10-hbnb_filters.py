@@ -19,6 +19,7 @@ def tear_storage(exception=None):
     if storage is not None:
         storage.close()
 
+
 @app.route('/hbnb_filters')
 def hbnb_filters(id=None):
     """displays a HTML page: inside the tag BODY"""
